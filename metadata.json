@@ -1,0 +1,9 @@
+{
+  "name": "DermaGenius AI",
+  "description": "An AI-powered skincare advisor. Snap a photo of your skin to get a personalized analysis and product recommendations. Chat with our AI for more skincare tips, find local dermatologists, and get deep insights into complex skin concerns.",
+  "requestFramePermissions": [
+    "camera",
+    "geolocation",
+    "microphone"
+  ]
+}

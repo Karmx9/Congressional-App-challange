@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DermaGenius AI - Your Personal Skincare Advisor</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Get personalized skincare analysis and product recommendations with DermaGenius AI. Upload a photo, chat with our AI, and track your skin journey." />
+    <meta name="keywords" content="skincare, AI, dermatology, skin analysis, acne, beauty, skincare routine, product recommendation" />
+    <meta name="author" content="DermaGenius AI" />
+    
+    <!-- Favicon -->
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512' fill='%2310b981'%3E%3Cpath d='M496 224c-92.29 0-168.32 67.2-183.32 152.12a191.54 191.54 0 01-16.68 55.88c-9.43 23.58-29.28 40-52.54 40-29.33 0-53.15-22.34-54.89-50.52a4 4 0 00-4-3.48h-29.14a4 4 0 00-4 3.48C149.15 449.66 125.33 472 96 472c-23.26 0-43.11-16.42-52.54-40A191.54 191.54 0 0127.32 376.12C12.32 291.2 0 224 0 224S128 0 256 0s240 224 240 224zM100 384a28 28 0 10-28 28 28 28 0 0028-28zm156-224a52 52 0 10-52 52 52 52 0 0052-52zm156 224a28 28 0 1028 28 28 28 0 00-28-28z'/%3E%3C/svg%3E" type="image/svg+xml">
+
+    <!-- Open Graph / Facebook Meta Tags -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://example.com/" />
+    <meta property="og:title" content="DermaGenius AI - Your Personal Skincare Advisor" />
+    <meta property="og:description" content="Get personalized skincare analysis and product recommendations with DermaGenius AI. Upload a photo, chat with our AI, and track your skin journey." />
+    <meta property="og:image" content="https://example.com/og-image.png" />
+    
+    <!-- Twitter Meta Tags -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://example.com/" />
+    <meta property="twitter:title" content="DermaGenius AI - Your Personal Skincare Advisor" />
+    <meta property="twitter:description" content="Get personalized skincare analysis and product recommendations with DermaGenius AI. Upload a photo, chat with our AI, and track your skin journey." />
+    <meta property="twitter:image" content="https://example.com/og-image.png" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.27.0"
+  }
+}
+</script>
+<style>
+  :root {
+    --brand-primary-light: #6ee7b7; /* Emerald 300 */
+    --brand-primary: #10b981; /* Emerald 500 */
+    --brand-primary-dark: #047857; /* Emerald 700 */
+    --brand-secondary: #0d9488; /* Teal 600 */
+    --background-light: #f8fafc; /* Slate 50 */
+    --background-dark: #f1f5f9; /* Slate 100 */
+    --text-primary: #1e293b; /* Slate 800 */
+    --text-secondary: #475569; /* Slate 600 */
+    --text-light: #64748b; /* Slate 500 */
+    --border-color: #e2e8f0; /* Slate 200 */
+    --card-background: #ffffff;
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    --font-sans: 'Inter', sans-serif;
+  }
+  
+  body {
+    background-color: var(--background-light);
+    font-family: var(--font-sans);
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .main-container {
+    padding: 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .main-container {
+      padding: 1.5rem;
+    }
+  }
+
+  /* Custom Focus Ring */
+  *:focus-visible {
+    outline: 2px solid var(--brand-primary);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition: all 0.2s ease-in-out;
+    border: 1px solid transparent;
+    cursor: pointer;
+  }
+  .btn-primary {
+    background-image: linear-gradient(to right, var(--brand-primary), var(--brand-secondary));
+    color: white;
+    box-shadow: var(--shadow-md);
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
+  .btn-primary:disabled {
+    background: #9ca3af; /* Gray 400 */
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+  .btn-secondary {
+    background-color: var(--card-background);
+    color: var(--text-secondary);
+    border-color: var(--border-color);
+    box-shadow: var(--shadow-sm);
+  }
+  .btn-secondary:hover {
+    background-color: var(--background-dark);
+    border-color: #cbd5e1; /* Slate 300 */
+  }
+
+  /* Cards & Modals */
+  .card {
+    background-color: var(--card-background);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border-color);
+  }
+  
+  /* Form Inputs */
+  .form-input, .form-select, .form-textarea {
+    display: block;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .form-input:focus, .form-select:focus, .form-textarea:focus {
+    border-color: var(--brand-primary);
+    box-shadow: 0 0 0 2px var(--brand-primary-light);
+    outline: none;
+  }
+
+  /* Prose styles for markdown */
+  .prose h1, .prose h2, .prose h3 { color: var(--text-primary); }
+  .prose p, .prose li { color: var(--text-secondary); }
+  .prose a { color: var(--brand-secondary); text-decoration: none; }
+  .prose a:hover { text-decoration: underline; }
+  .prose strong { color: var(--text-primary); }
+  .prose blockquote { border-left-color: var(--brand-primary); }
+  .prose code { background-color: var(--background-dark); padding: 2px 4px; border-radius: 4px; }
+
+  /* Custom toggle switch */
+  .toggle-switch-dot {
+    transition: transform 0.3s ease-in-out;
+  }
+  input:checked ~ .toggle-switch-bg {
+    background-color: var(--brand-primary);
+  }
+  input:checked ~ .toggle-switch-dot {
+    transform: translateX(100%);
+  }
+
+  /* Animations */
+  .fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Specific Component Styles */
+  .tab-nav {
+    display: flex;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border-color);
+    background-color: white;
+  }
+  .tab-button {
+    flex: 1;
+    padding: 0.75rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    background-color: white;
+    border: none;
+    transition: all 0.2s;
+    position: relative;
+    cursor: pointer;
+  }
+  .tab-button:hover:not(.active) {
+    background-color: var(--background-dark);
+  }
+  .tab-button.active {
+    background-image: linear-gradient(to right, var(--brand-primary), var(--brand-secondary));
+    color: white;
+    box-shadow: inset 0 2px 4px rgb(0 0 0 / 0.1);
+  }
+  .tab-button:disabled {
+    color: #9ca3af; /* Gray 400 */
+    background-color: var(--background-light);
+    cursor: not-allowed;
+  }
+</style>
+</head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/index.tsx" defer></script>
+  </body>
+</html>
